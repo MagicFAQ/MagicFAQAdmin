@@ -76,7 +76,7 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 401) {
-                            MagicFAQ.notify('Unanticipated authorization error. Try refreshing the page.', 'error', 20000);
+                            // MagicFAQ.notify('Unanticipated authorization error. Try refreshing the page.', 'error', 20000);
                         }
                     }
                 }
