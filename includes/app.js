@@ -55,7 +55,7 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
         $scope.synonym = "";
 
         $scope.editItem = function(){
-            Restangular.one('questions', $scope.item.id).patch($scope.item);
+            Restangular.one('questions', $scope.item.id).patch($scope.item, {}, {'Authorization': MagicFAQ.auth.getToken()});
         };
 
         $scope.submitSynonym = function() {
@@ -89,16 +89,22 @@ app.controller('questionCreateCtrl', function($scope, Restangular, $location) {
     $scope.item = {question: "", answer: ""};
     $scope.createQuestion = function(){
         $.post(
-            Restangular.configuration.baseUrl + '/questions/',
             {
-                'question': $scope.item.question,
-                'answer': $scope.item.answer,
-            },
-            function(msg) {
-                $location.path('/questions/' + $.parseJSON(msg)['id'] + '/');
+                url: Restangular.configuration.baseUrl + '/questions/',
+                beforeSend: function (request)
+                {
+                    request.setRequestHeader("Authorization", MagicFAQ.auth.getToken());
+                },
+                data: {
+                    'question': $scope.item.question,
+                    'answer': $scope.item.answer,
+                },
+                success: function(msg) {
+                    $location.path('/questions/' + $.parseJSON(msg)['id'] + '/');
+                }
             }
-        );
 
+        );
     }
 });
 
