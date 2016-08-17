@@ -1,5 +1,5 @@
 // Define the application
-app = angular.module('items', ['restangular', 'ngRoute']);
+app = angular.module('items', ['restangular', 'ngRoute', 'summernote']);
 
 app.filter('getId', function() {
     return function(input) {
