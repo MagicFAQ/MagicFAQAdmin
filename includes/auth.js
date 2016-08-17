@@ -34,9 +34,10 @@ MagicFAQ.auth = (function () {
                     expiration = msg.expiration
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
-                    console.log(textStatus);
-                    console.log(errorThrown);
+                    console.log(jqXHR.getAllResponseHeaders());
+                    if (jqXHR.status === 401) {
+                        window.open('http://localhost:7999/v1/auth/login/', '', 'width=800,height=600');
+                    }
                 },
                 timeout: 3000,
             }
