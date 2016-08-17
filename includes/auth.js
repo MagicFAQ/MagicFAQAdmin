@@ -36,7 +36,8 @@ MagicFAQ.auth = (function () {
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR.getAllResponseHeaders());
                     if (jqXHR.status === 401) {
-                        window.open('http://localhost:7999/v1/auth/login/', '', 'width=800,height=600');
+                        var uri = jqXHR.getResponseHeader('WWW-Authenticate').trim().split(' ').pop();
+                        window.open(uri, '', 'width=800,height=600');
                     }
                 },
                 timeout: 3000,
