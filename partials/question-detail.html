@@ -1,0 +1,27 @@
+<div ng-controller="questionDetailCtrl">
+    <h1>Question Detail</h1>
+    <form>
+        <div class="form-group">
+            <label for="questionInput">Question:</label>
+            <!--<input type="email" class="form-control" id="question" placeholder="">-->
+            <input id="questionInput" placeholder="question" type="text" class="form-control" name="question"  ng-model="item.question" />
+        </div>
+        <div class="form-group">
+            <label for="answerInput">Answer:</label>
+            <textarea id="answerInput" class="form-control" placeholder="answer" name="answer"  ng-model="item.answer" /> </textarea>
+        </div>
+
+        <button class="btn btn-primary" ng-click="editItem()" type="submit">Submit Changes</button>
+        <button class="btn btn-danger" ng-click="editItem()" type="submit">Delete Question</button>
+    </form>
+
+    <h1>Submit a "Synonym" Question</h1>
+    <form>
+        <div class="form-group">
+            <label for="synonymInput">"Synonym" Question:</label>
+            <!--<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">-->
+            <input type="text" id="synonymInput" class="form-control" placeholder="synonym" name="synonym" ng-model="synonym">
+        </div>
+        <button class="btn btn-primary" ng-click="submitSynonym()" type="submit">Submit "Synonym"</button>
+    </form>
+</div>
