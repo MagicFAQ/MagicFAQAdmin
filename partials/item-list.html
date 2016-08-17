@@ -1,7 +1,7 @@
 <div ng-controller="mainCtrl">
     <h1>Question List</h1>
-    <div ng-repeat="item in items">
-        <!--<a href="questions/{{ item.href | getId }}" data-href-for="{{ item.href }}">{{ item.title }}</a> {{ item.user.username }}-->
-        <a href="questions/{{ item.id }}" data-href-for="{{ item.id }}">{{ item.question }}</a>
+
+    <div class="list-group">
+        <a ng-repeat="item in items" href="questions/{{ item.id }}" data-href-for="{{ item.id }}" class="list-group-item">{{ item.question }}</a>
     </div>
 </div>
