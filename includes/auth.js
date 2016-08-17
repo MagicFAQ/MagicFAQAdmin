@@ -34,10 +34,34 @@ MagicFAQ.auth = (function () {
                     expiration = msg.expiration
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.getAllResponseHeaders());
                     if (jqXHR.status === 401) {
-                        var uri = jqXHR.getResponseHeader('WWW-Authenticate').trim().split(' ').pop();
-                        window.open(uri, '', 'width=800,height=600');
+                        var loginURI;
+
+                        if (typeof jqXHR.getResponseHeader('WWW-Authenticate') === 'string') {
+                            loginURI = jqXHR.getResponseHeader('WWW-Authenticate').trim().split(' ').pop();
+                        } else {
+                            loginURI = MagicFAQ.baseURL + 'auth/login/';
+                        }
+
+                        console.log(loginURI);
+
+                        authWindow = window.open(loginURI, '', 'width=800,height=600');
+
+                        MagicFAQ.notify(
+                            'Need to re-authenticate. Please sign in and then try again. Disable pop-up blockers if sign in window does not appear.',
+                            'info',
+                            10000
+                        );
+
+                        authWindow.onclose = function() {
+                            if (typeof getToken() !== 'undefined') {
+                                MagicFAQ.notify(
+                                    'You have been re-authenticated. Please try your operation again.',
+                                    'success',
+                                    10000
+                                );
+                            }
+                        }
                     }
                 },
                 timeout: 3000,
