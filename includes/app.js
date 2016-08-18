@@ -90,6 +90,7 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
 
 app.controller('questionCreateCtrl', function($scope, Restangular, $location) {
     $scope.item = {question: "", answer: ""};
+    MagicFAQ.notify('Creating question.', 'info', 5000);
     $scope.createQuestion = function(){
         $.post(
             {
@@ -103,7 +104,7 @@ app.controller('questionCreateCtrl', function($scope, Restangular, $location) {
                     'answer': $scope.item.answer,
                 },
                 success: function(msg) {
-                    MagicFAQ.notify('Item created.', 'success', 5000);
+                    MagicFAQ.notify('Question created.', 'success', 5000);
                     $location.path('/questions/' + $.parseJSON(msg)['id'] + '/');
                 }
             }
