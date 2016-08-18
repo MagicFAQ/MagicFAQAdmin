@@ -55,7 +55,10 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
         $scope.synonym = "";
 
         $scope.editItem = function(){
-            Restangular.one('questions', $scope.item.id).patch($scope.item, {}, {'Authorization': MagicFAQ.auth.getToken()});
+            Restangular.one('questions', $scope.item.id).patch($scope.item, {}, {'Authorization': MagicFAQ.auth.getToken()})
+                .then(function() {
+                    MagicFAQ.notify('Item edited.', 'success', 5000)
+                });
         };
 
         $scope.submitSynonym = function() {
@@ -100,6 +103,7 @@ app.controller('questionCreateCtrl', function($scope, Restangular, $location) {
                     'answer': $scope.item.answer,
                 },
                 success: function(msg) {
+                    MagicFAQ.notify('Item created.', 'success', 5000);
                     $location.path('/questions/' + $.parseJSON(msg)['id'] + '/');
                 }
             }
