@@ -76,6 +76,7 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
                     },
                     success: function() {
                         MagicFAQ.notify('Synonym created.', 'success', 5000);
+                        $scope.synonym = '';
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 401) {
