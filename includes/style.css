@@ -1,3 +1,5 @@
 div.note-editing-area {
     min-height:200px;
 }
+
+.ng-scope { height: 100%; }

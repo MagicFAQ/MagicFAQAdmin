@@ -1,7 +1,24 @@
 <div ng-controller="mainCtrl">
     <h1>Question List</h1>
 
-    <div class="list-group">
-        <a ng-repeat="item in items" href="questions/{{ item.id }}" data-href-for="{{ item.id }}" class="list-group-item">{{ item.question }}</a>
-    </div>
+    <md-table-container>
+        <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+            <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+            <tr md-row>
+                <th md-column md-order-by="nameToLower"><span>Question</span></th>
+                <th md-column md-numeric md-order-by="calories.value"><span>Answer</span></th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="item in items">
+                <td md-cell>{{item.question}}</td>
+                <td md-cell>{{item.answer}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+
+    <!--<div class="list-group">-->
+        <!--<a ng-repeat="item in items" href="questions/{{ item.id }}" data-href-for="{{ item.id }}" class="list-group-item">{{ item.question }}</a>-->
+    <!--</div>-->
 </div>

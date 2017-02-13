@@ -1,3 +1,5 @@
+
+
 MagicFAQ.notify = (function () {
 
     var messageTypes = {
