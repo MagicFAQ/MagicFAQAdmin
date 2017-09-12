@@ -1,5 +1,5 @@
 // Define the application
-app = angular.module('items', ['restangular', 'ngRoute', 'summernote']);
+app = angular.module('items', ['restangular', 'ngRoute', 'summernote', 'angular-table']);
 
 app.filter('getId', function() {
     return function(input) {
@@ -22,6 +22,9 @@ app.config(['$routeProvider',
         }).
         when('/questions/new', {
             templateUrl: 'partials/question-create.html'
+        }).
+        when('/questions/ask', {
+            templateUrl: 'partials/question-ask.html'
         }).
         when('/questions/:itemId', {
             templateUrl: 'partials/question-detail.html'
@@ -52,6 +55,7 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
         notification.close();
 
         $scope.item = result;
+
         $scope.synonym = "";
 
         $scope.editItem = function(){
@@ -61,8 +65,96 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
                 });
         };
 
+        $scope.markQueryPositive = function ($query) {
+            MagicFAQ.notify('Submitting synonym.', 'info', 2000);
+            $.post(
+                {
+                    url: Restangular.configuration.baseUrl + '/feedback/',
+                    beforeSend: function (request)
+                    {
+                        request.setRequestHeader("Authorization", MagicFAQ.auth.getToken());
+                    },
+                    data: {
+                        'question_id': $scope.item.id,
+                        'question': $query,
+                        'magnitude': 2
+                    },
+                    success: function() {
+                        MagicFAQ.notify('Synonym created.', 'success', 5000);
+                        $scope.synonym = '';
+
+                        var feedback = Restangular.one('feedback', $routeParams.itemId);
+                        feedback.get().then(function (result) {
+                            $scope.feedback = result['feedback'];
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        MagicFAQ.notify('Unanticipated error ' + $jqXHR.status + '. Try refreshing the page.', 'error', 20000);
+
+                    }
+                }
+            );
+        };
+
+        $scope.markQueryNegative = function ($query) {
+            MagicFAQ.notify('Submitting synonym.', 'info', 2000);
+            $.post(
+                {
+                    url: Restangular.configuration.baseUrl + '/feedback/',
+                    beforeSend: function (request)
+                    {
+                        request.setRequestHeader("Authorization", MagicFAQ.auth.getToken());
+                    },
+                    data: {
+                        'question_id': $scope.item.id,
+                        'question': $query,
+                        'magnitude': -2
+                    },
+                    success: function() {
+                        MagicFAQ.notify('Synonym created.', 'success', 5000);
+                        $scope.synonym = '';
+
+                        var feedback = Restangular.one('feedback', $routeParams.itemId);
+                        feedback.get().then(function (result) {
+                            $scope.feedback = result['feedback'];
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        MagicFAQ.notify('Unanticipated error ' + jqXHR.status+ '. Try refreshing the page.', 'error', 20000);
+                    }
+                }
+            );
+        };
+
+        $scope.removeSynonym = function ($partialId) {
+            var note = MagicFAQ.notify('Removing synonym.', 'info', 5000);
+            $.post(
+                {
+                    url: Restangular.configuration.baseUrl + '/feedback/' + $scope.item.id + '/partial/' + $partialId,
+                    method: 'DELETE',
+                    beforeSend: function (request)
+                    {
+                        request.setRequestHeader("Authorization", MagicFAQ.auth.getToken());
+                    },
+                    success: function() {
+                        MagicFAQ.notify('Synonym removed.', 'success', 2000);
+                        $scope.synonym = '';
+
+                        var feedback = Restangular.one('feedback', $routeParams.itemId);
+                        feedback.get().then(function (result) {
+                            $scope.feedback = result['feedback'];
+                        });
+                        note.close();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        MagicFAQ.notify('Unanticipated error '+ $jqXHR.status + '. Try refreshing the page.', 'error', 20000);
+                    }
+                }
+            );
+        };
+
         $scope.submitSynonym = function() {
-            MagicFAQ.notify('Submitting synonym.', 'info', 5000);
+            var note = MagicFAQ.notify('Submitting synonym.', 'info', 5000);
             $.post(
                 {
                     url: Restangular.configuration.baseUrl + '/feedback/',
@@ -75,23 +167,53 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
                         'question': $scope.synonym
                     },
                     success: function() {
-                        MagicFAQ.notify('Synonym created.', 'success', 5000);
+                        MagicFAQ.notify('Synonym created.', 'success', 2000);
                         $scope.synonym = '';
+
+                        var feedback = Restangular.one('feedback', $routeParams.itemId);
+                        feedback.get().then(function (result) {
+                            $scope.feedback = result['feedback'];
+                        });
+                        note.close();
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status === 401) {
-                            // MagicFAQ.notify('Unanticipated authorization error. Try refreshing the page.', 'error', 20000);
-                        }
+                        MagicFAQ.notify('Unanticipated error '+ $jqXHR.status + '. Try refreshing the page.', 'error', 20000);
                     }
                 }
             );
         }
     });
+
+    var self = this;
+
+    $scope.queries = [];
+    var queries = Restangular.one('queries', $routeParams.itemId);
+    queries.get().then(function (result) {
+        $scope.queries = result['raw_queries'];
+    });
+
+    $scope.feedback = [];
+    var feedback = Restangular.one('feedback', $routeParams.itemId);
+    feedback.get().then(function (result) {
+        $scope.feedback = result['feedback'];
+    });
+
+    $scope.queries_config = {
+        itemsPerPage: 12,
+        fillLastPage: true
+    }
+
+    $scope.feedback_config = {
+        itemsPerPage: 8,
+        fillLastPage: true
+    }
+
+    // console.log($scope.queries);
 });
 
 app.controller('questionCreateCtrl', function($scope, Restangular, $location) {
     $scope.item = {question: "", answer: ""};
-    MagicFAQ.notify('Creating question.', 'info', 5000);
+    var notification = MagicFAQ.notify('Creating question.', 'info', 5000);
     $scope.createQuestion = function(){
         $.post(
             {
@@ -109,9 +231,15 @@ app.controller('questionCreateCtrl', function($scope, Restangular, $location) {
                     $location.path('/questions/' + $.parseJSON(msg)['id'] + '/');
                 }
             }
-
-        );
+        )
+        .fail(function () {var notification = MagicFAQ.notify('Error.', 'error', 3000);})
+        .always(function () {notification.close();});
     }
+
+    $('document').ready(function () {
+        console.log('ready');
+        $('[data-toggle="popover"]').popover();
+    });
 });
 
 
@@ -136,3 +264,4 @@ app.config(function(RestangularProvider) {
         return extractedData;
     });
 });
+

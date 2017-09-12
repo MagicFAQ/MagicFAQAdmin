@@ -1,0 +1,22 @@
+<h1>Ask a Question</h1>
+<div ngcontroller="questionAskCtrl">
+
+    <form id="magicfaq-ask" data-base-api-path="<?php echo __( esc_attr( $instance['baseAPIPath']), 'text_domain' ); ?>" onsubmit="magicfaq.askQuestion($('#magicfaq-question').val()); return false;">
+    <input id="magicfaq-question" style=width:250px type=text name=question />
+    <input class="btn btn-sm btn-purple" type=submit value="Ask!" />
+</form>
+<div id="magicfaq-answers-container" style="min-height:100px;">
+
+    <h3 class="magicfaq-subtitle default-questions" style="display:none"><?php echo __( esc_attr( $instance['defaultQuestionsTitle']), 'text_domain' ); ?></h3>
+    <h3 class="magicfaq-subtitle results" style="display:none"><?php echo __( esc_attr( $instance['resultsTitle']), 'text_domain' ); ?></h3>
+    <h3 class="magicfaq-subtitle not-found" style="display:none"><?php echo __( esc_attr( $instance['notFoundTitle']), 'text_domain' ); ?></h3>
+    <ul class="magicfaq">
+        <!--<li class="magicfaq closed">-->
+            <!--<a class="magicfaq-question" href="#" onclick="return false;">How do I buy transcripts?</a>-->
+            <!--<div class="magicfaq-answer">-->
+                <!--<p>Answer paragraph.</p>-->
+            <!--</div>-->
+        <!--</li>-->
+    </ul>
+</div>
+</div>

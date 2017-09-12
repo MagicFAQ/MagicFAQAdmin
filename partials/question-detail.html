@@ -17,13 +17,69 @@
 
     <br>
 
-    <h1>Submit a "Synonym" Question</h1>
-    <form>
-        <div class="form-group">
-            <label for="synonymInput">"Synonym" Question:</label>
-            <!--<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">-->
-            <input type="text" id="synonymInput" class="form-control" placeholder="synonym" name="synonym" ng-model="synonym">
-        </div>
-        <button class="btn btn-primary" ng-click="submitSynonym()" type="submit">Submit "Synonym"</button>
-    </form>
+    <div class="row">
+    <div class="col-md-6">
+        <h2>Recommended Search Terms</h2>
+        <p>These searches have been flagged by users as being related to this Question. <a data-toggle="popover" title="Why do these look weird?" data-content="MagicFAQ strips out a lot of unhelpful or complicating words (I, a, this, etc) to simplify the search process. So when you recommend the phrase 'how do I order transcripts' MagicFAQ strips this down into 'how order transcript'">Why do these look weird?</a></p>
+    </div>
+    <div class="col-md-6">
+        <h2>Recent Searches</h2>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-6">
+
+        <table class="table" at-table at-paginated at-list="feedback"  at-config="feedback_config">
+            <thead></thead>
+            <tbody>
+            <tr>
+                <td at-implicit at-attribute="text" style="width:30%" at-initial-sorting="asc"></td>
+                <td at-implicit at-attribute="created_at_readable"  style="width:30%"></td>
+                <td style="text-align:right;">
+                    <a class="btn btn-sm btn-danger" ng-click="removeSynonym(item.partial_id)" title="No">
+                        <i class="glyphicon glyphicon-remove-circle"></i> Delete
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <at-pagination at-list="feedback" at-config="feedback_config"></at-pagination>
+
+        <h2>Add Recommendation</h2>
+        The system will add these terms to the search algorithm.
+        <form>
+            <div class="form-group">
+                <!--<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">-->
+                <input type="text" id="synonymInput" class="form-control" placeholder="synonym" name="synonym" ng-model="synonym">
+            </div>
+            <button class="btn btn-primary" ng-click="submitSynonym()" type="submit">Submit</button>
+        </form>
+
+    </div>
+    <div class="col-md-6">
+
+
+        <table class="table" at-table at-paginated at-list="queries"  at-config="queries_config">
+            <thead></thead>
+            <tbody>
+            <tr>
+                <td at-implicit at-attribute="text" at-title="Search" width="150" at-initial-sorting="asc"></td>
+                <td at-implicit at-attribute="posted_readable" at-title="Date" width="250"></td>
+                <td at-title="Recommend?" style="text-align:right;">
+                    <a class="btn btn-sm btn-primary" ng-click="markQueryPositive(item.text)" title="No">
+                        <i class="glyphicon glyphicon-thumbs-up"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger" ng-click="markQueryNegative(item.text)" title="No">
+                        <i class="glyphicon glyphicon-thumbs-down"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <at-pagination at-list="queries" at-config="queries_config"></at-pagination>
+
+    </div>
+    </div>
 </div>

@@ -8,15 +8,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Magic FAQ Admin</title>
 
-    <base href="/" />
+    <base href="/MagicFAQAdmin/" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://bootswatch.com/yeti/bootstrap.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -26,9 +26,10 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-resource.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.js"></script>
+    <script src="./includes/angular-table.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-resource.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-route.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/restangular/1.4.0/restangular.js"></script>
 
@@ -37,18 +38,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-summernote/0.8.1/angular-summernote.min.js"></script>
 
+
     <script src="includes/bootstrap-notify.min.js"></script>
 
     <link rel="stylesheet" href="includes/animate.css">
+    <link rel="stylesheet" href="includes/uw-bootstrap.css">
 
-    <script type="text/javascript">
-        MagicFAQ = {};
-//        MagicFAQ.baseURL = 'https://apps.doem.washington.edu/questions/v1/';
-        MagicFAQ.baseURL = 'http://localhost:7999/v1/';
-    </script>
-    <script src="includes/auth.js"></script>
-    <script src="includes/notify.js"></script>
-    <script src="includes/app.js"></script>
+    <!--<script type="text/javascript">-->
+        <!--MagicFAQ = {};-->
+        <!--MagicFAQ.baseURL = 'http://localhost:8080/MagicFAQ/v2/';-->
+    <!--</script>-->
+    <script src="./includes/app.settings.js"></script>
+    <script src="./includes/auth.js"></script>
+    <script src="./includes/notify.js"></script>
+    <script src="./includes/app.js"></script>
+    <script src="./includes/test-faq.js"></script>
 
     <link rel="stylesheet" href="includes/style.css">
 </head>
@@ -68,8 +72,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/">List Questions</a></li>
-                <li><a href="/questions/new/">Create a Question</a></li>
+                <li><a href="./">List Questions</a></li>
+                <li><a href="./questions/new/">Create a Question</a></li>
+                <li><a href="./questions/ask/">Test FAQ</a></li>
+                <li class="pull-right"><a href="./settings/">Settings</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
