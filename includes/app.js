@@ -29,6 +29,9 @@ app.config(['$routeProvider',
         when('/questions/:itemId', {
             templateUrl: 'partials/question-detail.html'
         }).
+        when('/guide', {
+            templateUrl: 'partials/guide.html'
+        }).
         otherwise({
             redirectTo: '/'
         });
@@ -46,6 +49,16 @@ app.controller('mainCtrl', function($scope, Restangular) {
         notification.close();
         $scope.items = result;
     });
+
+});
+
+app.controller('guideCtrl', function($scope, Restangular) {
+
+    // var notification = MagicFAQ.notify('Loading Questions', 'info', 5000, 1000);
+    // Restangular.all('questions/').getList({all: 'true'}).then(function(result) {
+    //     notification.close();
+    //     $scope.items = result;
+    // });
 
 });
 
