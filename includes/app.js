@@ -221,6 +221,12 @@ app.controller('questionDetailCtrl', function($scope, Restangular, $routeParams)
         fillLastPage: true
     }
 
+
+    $('document').ready(function () {
+        console.log('ready');
+        $('[data-toggle="popover"]').popover();
+    });
+
     // console.log($scope.queries);
 });
 
@@ -278,3 +284,8 @@ app.config(function(RestangularProvider) {
     });
 });
 
+$(document).ready(function () {
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+});
